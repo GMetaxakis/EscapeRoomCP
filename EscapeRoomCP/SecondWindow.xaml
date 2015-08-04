@@ -1,0 +1,18 @@
+﻿<Window x:Class="EscapeRoomCP.SecondWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SecondWindow" Loaded="Window_Loaded" Background="Black" WindowStartupLocation="Manual" Height="1080" Width="1920" 
+                Closing="Window_Closing">
+    <Grid>
+        <Label Name="timerLbl" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="460" Foreground="Cyan" />
+
+        <TextBlock Visibility="Hidden" Name="messageTextBlock" TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="something" Width="1680" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="90" Foreground="Cyan" />
+        <Image Name="image" Width="1680" Height="1050" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <MediaElement Name="video"  Width="600" Height="350"   LoadedBehavior="Manual" UnloadedBehavior="Stop" Visibility="Hidden" />
+
+
+        <Label Visibility="Hidden" Name="timerSmallLbl" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="70" Foreground="Cyan" />
+
+    </Grid>
+</Window>

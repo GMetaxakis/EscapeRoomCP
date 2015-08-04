@@ -1,0 +1,243 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" 
+        x:Class="EscapeRoomCP.FirstWindow"
+        
+        xmlns:webEye="clr-namespace:WebEye;assembly=StreamPlayerControl"
+        
+        Closing="Window_Closing"
+        Title="Control panel" Height="1080" Width="1920" Background="White">
+    <Window.Resources>
+        <ObjectDataProvider 
+            ObjectInstance="{x:Type Colors}" 
+            MethodName="GetProperties" 
+            x:Key="colorPropertiesOdp" />
+
+
+        <Style TargetType="{x:Type Label}" >
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+
+
+        <Style TargetType="{x:Type Label}" x:Key="title">
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="SelectedIndex" Value="0"/>
+            <Setter Property="Height" Value="22"/>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+
+
+
+    </Window.Resources>
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="0.6*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="1" Background="Black"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="2"/>
+
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" Background="Black"/>
+            <Border Grid.Column="3" Background="Black"/>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical">
+                <Label Content="Χρονομετρητής" Style="{StaticResource title}"/>
+
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Content="Αρχική τιμή (λεπτά) : "/>
+                    <TextBox Width="35" Text="60" x:Name="startValueOfTimeTB" />
+                </StackPanel>
+
+                <Label x:Name="currTimeLeftLbl" Content="" Style="{StaticResource title}"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                    <Button Click="StartPauseTime" Width="60" Height="60" Margin="10" >
+                        <Image Source="play_pause.png"/>
+                    </Button>
+
+                    <Button Click="StopTime" Width="60" Height="60" Margin="10">
+                        <Image Source="stop.png"/>
+                    </Button>
+                </StackPanel>
+
+
+
+            </StackPanel>
+
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                <StackPanel  Orientation="Vertical">
+                    <Label Content="Ρυθμίσεις" Style="{StaticResource title}"/>
+
+                    <Grid Margin="10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.35*"/>
+                            <ColumnDefinition Width="0.65*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Γραμματοσειρά :"/>
+                        <Label Grid.Column="0" Grid.Row="1" Content="Χρώμα :"/>
+                        <Label Grid.Column="0" Grid.Row="2" Content="Μέγεθος μετρητή :"/>
+                        <Label Grid.Column="0" Grid.Row="3" Content="Μέγεθος μετρητή 2 :"/>
+                        <Label Grid.Column="0" Grid.Row="4" Content="Μέγεθος κειμένου :"/>
+                        <Label Grid.Column="0" Grid.Row="5" Content="Background :"/>
+                        <Label Grid.Column="0" Grid.Row="6" Content="αρχείο ήχου :"/>
+                        <Label Grid.Column="0" Grid.Row="7" Content="ip camera 1 :"/>
+                        <Label Grid.Column="0" Grid.Row="8" Content="ip camera 2 :"/>
+
+                        <ComboBox  x:Name="fontCB" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Source}" FontFamily="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+
+                        </ComboBox>
+                        <ComboBox x:Name="colorCB" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}" SelectedValuePath="Name" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" Foreground="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <TextBox x:Name="timerSizeTB" Grid.Row="2" Grid.Column="1"/>
+                        <TextBox x:Name="timer2SizeTB" Grid.Row="3" Grid.Column="1"/>
+                        <TextBox x:Name="textSizeTB" Grid.Row="4" Grid.Column="1"/>
+
+
+                        <Button Content="Επιλογή" Height="28" Grid.Column="1" Grid.Row="5" Click="SelectBgImage"/>
+                        <Button Content="Επιλογή" IsEnabled="False" Height="28" Grid.Column="1" Grid.Row="6" Click="SelectBeepFile"/>
+
+                        <TextBox x:Name="textIpCam1" Grid.Row="7" Grid.Column="1"/>
+                        <TextBox x:Name="textIpCam2" Grid.Row="8" Grid.Column="1"/>
+
+                    </Grid>
+
+                    <Image Height="20" x:Name="bgImagePreview" />
+
+                    <Button Width="180" Content="Αποθήκευση" Click="saveSettings"/>
+                </StackPanel>
+            </ScrollViewer>
+
+
+
+            <StackPanel Grid.Column="4" Orientation="Vertical">
+                <Label Content="Πολυμέσα / Μήνυμα" Style="{StaticResource title}"/>
+                <TabControl Height="260" x:Name="tabControl">
+                    <TabItem Header="Πολυμέσα">
+                        <StackPanel Orientation="Vertical" >
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Label Content="Θέση αρχείου : "/>
+                                <TextBox x:Name="fileLocationTxt" Width="400" />
+                                <Button Width="120" Content="Browse..." Click="BrowseFile"/>
+                            </StackPanel>
+                            <Grid>
+                                <Image x:Name="image" Height="180" Margin="10,10,10,90" Visibility="Hidden"/>
+                                <MediaElement x:Name="video"  Height="180" Margin="10,10,10,90" LoadedBehavior="Manual" UnloadedBehavior="Stop" Visibility="Hidden"/>
+                            </Grid>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Header="Μήνυμα">
+                        <StackPanel Orientation="Vertical" >
+                            <Viewbox Height="20">
+                                <RadioButton Content="don't touch" GroupName="group1"  FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="dontTouchRB" IsChecked="True"/>
+                            </Viewbox>
+                            <Viewbox Height="20">
+                                <RadioButton Content="ελεύθερο κείμενο" GroupName="group1" FontSize="12" HorizontalAlignment="Center" x:Name="customMsgRB"/>
+                            </Viewbox>
+                            <TextBox TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" x:Name="customMessageTB" Width="480" Height="150" />
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Content="Χρόνος (δευτερόλεπτα) : "/>
+                    <TextBox x:Name="miniTimerTB" Text="10" />
+                    <Button Margin="10,0,0,0" Content="Αποστολή" Click="sentToSecondScreen"/>
+                </StackPanel>
+            </StackPanel>
+
+
+
+        </Grid>
+
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" x:Name="secondWindowFrame" Background="Black">
+
+
+                <Label x:Name="scTimer" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="230" Foreground="Cyan" />
+
+                <TextBlock x:Name="scMessage" TextWrapping="WrapWithOverflow" TextAlignment="Center" Width="600" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="45" Foreground="Cyan" />
+                <Image x:Name="scImage" Width="600" Height="350" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <MediaElement x:Name="scVideo" Width="600" Height="350"  LoadedBehavior="Manual" UnloadedBehavior="Stop" Visibility="Hidden" />
+
+                <Label x:Name="scSmallTimer" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="35" Foreground="Cyan"  Visibility="Hidden"/>
+
+            </Grid>
+            <Border Background="Black" Grid.Column="1"/>
+            <Grid Grid.Column="2">
+
+                <Button Click="StartCapture" Width="60" Height="60" Margin="10" VerticalAlignment="Top"  HorizontalAlignment="Right">
+                    <Image Source="play_pause.png"/>
+                </Button>
+
+                <StackPanel Orientation="Vertical" >
+                    <webEye:StreamPlayerControl Height="310" Width="700" x:Name="streamPlayerControl1" />
+                    <Border Height="10" />
+                    <webEye:StreamPlayerControl Height="310" Width="700" x:Name="streamPlayerControl2"/>
+                </StackPanel>
+
+  
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
